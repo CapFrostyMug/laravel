@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\LoginController;
+use \App\Http\Controllers\NewsController;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +22,12 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
-Route::get('/', function () {
-    return view('index');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::prefix('news')->group(function () {
+    Route::get('/categories', [CategoriesController::class, 'index'])->name('news-categories');
+    Route::get('/categories/{id}', [CategoriesController::class, 'showNewsTitles'])->name('news-titles');
+    //Route::get('/categories/{id}/{newsId}', [NewsController::class, 'showNewsText'])->name('news-text');
 });
 
-Route::get('/info', function () {
-    return view('info');
-});
-
-Route::get('/news', function () {
-    return view('news');
-});
+Route::get('/login', [LoginController::class, 'index'])->name('login');
