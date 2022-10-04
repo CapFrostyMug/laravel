@@ -1,15 +1,18 @@
 <?php
 
+
 namespace App\Http\Controllers;
+
 
 use App\Models\News;
 use Illuminate\Http\Request;
 
+
 class NewsController extends Controller
 {
-    public function showNewsText($newsId)
+    public function showNews(News $newsText, $categoryId, $newsId)
     {
-        $newsText = News::getNewsText($newsId);
-        return view('news.newsText')->with('newsText', $newsText);
+        $newsText = $newsText->getNewsText($newsId);
+        return view('news.text')->with('newsText', $newsText);
     }
 }

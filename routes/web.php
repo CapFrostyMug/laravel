@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use \App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\URL;
@@ -25,9 +26,14 @@ use Illuminate\Support\Facades\URL;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('news')->group(function () {
-    Route::get('/categories', [CategoriesController::class, 'index'])->name('news-categories');
-    Route::get('/categories/{id}', [CategoriesController::class, 'showNewsTitles'])->name('news-titles');
-    //Route::get('/categories/{id}/{newsId}', [NewsController::class, 'showNewsText'])->name('news-text');
+    Route::get('/categories', [CategoryController::class, 'showNewsCategories'])->name('news-categories');
+    //Route::get('/categories/{slug}', [CategoryController::class, 'showNews'])->name('news-titles');
+    Route::get('/categories/{categoryId}', [CategoryController::class, 'showNews'])->name('news-titles');
+    Route::get('/categories/{categoryId}/{newsId}', [NewsController::class, 'showNews'])->name('news-text');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

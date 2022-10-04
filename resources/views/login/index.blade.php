@@ -1,20 +1,14 @@
-<?php
-ob_start();
-include_once "menu.php";
-$menu = ob_get_clean();
-?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Авторизация</title>
-</head>
-<body style="margin: 0 auto; padding-top: 15px; width: 1366px; display: flex;">
-<main>
-    <?= $menu ?>
+@extends('layouts.main') {{-- Путь до главного шаблона --}}
+
+@section('title')
+    @parent | Авторизация
+@endsection
+
+@section('menu')
+    @include('menu')
+@endsection
+
+@section('content')
     <div>
         <h1>Авторизация</h1>
     </div>
@@ -32,6 +26,4 @@ $menu = ob_get_clean();
             </div>
         </form>
     </div>
-</main>
-</body>
-</html>
+@endsection
