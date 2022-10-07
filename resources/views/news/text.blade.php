@@ -12,7 +12,7 @@
     @if ($newsText)
         @if (!$newsText['isPrivate'])
             <div class="mb-5">
-                <h1>Текст новости</h1>
+                <h1><?= $newsText['title'] ?></h1>
             </div>
             <div>
                 <p class="h4"><?= $newsText['text'] ?></p>

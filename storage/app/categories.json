@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Спорт",
+        "slug": "sport"
+    },
+    {
+        "id": 2,
+        "name": "Авто",
+        "slug": "auto"
+    },
+    {
+        "id": 3,
+        "name": "Кино",
+        "slug": "movie"
+    },
+    {
+        "id": 4,
+        "name": "Игры",
+        "slug": "games"
+    },
+    {
+        "id": 5,
+        "name": "Здоровье",
+        "slug": "health"
+    }
+]
