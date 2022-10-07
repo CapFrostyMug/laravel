@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use \App\Http\Controllers\NewsController;
+use App\Http\Controllers\Admin\IndexController as AdminIndexController;
 use Illuminate\Support\Facades\URL;
 
 /*
@@ -27,13 +28,20 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('news')->group(function () {
     Route::get('/categories', [CategoryController::class, 'showNewsCategories'])->name('news-categories');
-    //Route::get('/categories/{slug}', [CategoryController::class, 'showNews'])->name('news-titles');
     Route::get('/categories/{categoryId}', [CategoryController::class, 'showNews'])->name('news-titles');
     Route::get('/categories/{categoryId}/{newsId}', [NewsController::class, 'showNews'])->name('news-text');
 });
 
+Route::name('admin.')
+    ->prefix('admin')
+    ->group(function () {
+        Route::get('/', [AdminIndexController::class, 'index'])->name('index');
+        Route::match(['get', 'post'], '/create', [AdminIndexController::class, 'create'])->name('create');
+
+        Route::get('/download-image', [AdminIndexController::class, 'downloadImage'])->name('download.image');
+        Route::get('/download-news', [AdminIndexController::class, 'downloadNewsJsonFile'])->name('download.news');
+    });
+
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -4,9 +4,11 @@
 namespace App\Models;
 
 
+use Illuminate\Support\Facades\Storage;
+
 class News
 {
-    private array $news = [
+    /*private array $news = [
         [
             'id' => 1,
             'category_id' => 1,
@@ -77,7 +79,7 @@ class News
             'text' => 'This is the news 10. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores doloribus ea itaque laudantium maxime omnis optio repellat ut vero.',
             'isPrivate' => false,
         ],
-    ];
+    ];*/
     private Category $category;
 
     public function __construct(Category $category)
@@ -87,7 +89,8 @@ class News
 
     public function getAllNews(): array
     {
-        return $this->news;
+        return json_decode(Storage::disk('local')->get('news.json'), true);
+        //return $this->news;
     }
 
     public function getNewsByCategorySlug($slug): array
@@ -110,5 +113,10 @@ class News
                 return $news;
             }
         }
+    }
+
+    public function saveToFile($news)
+    {
+        Storage::disk('local')->put('news.json', json_encode($news), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 }

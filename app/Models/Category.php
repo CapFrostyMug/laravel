@@ -4,9 +4,11 @@
 namespace App\Models;
 
 
+use Illuminate\Support\Facades\Storage;
+
 class Category
 {
-    private array $newsCategories = [
+    /*private array $newsCategories = [
         [
             'id' => 1,
             'name' => 'Спорт',
@@ -33,11 +35,12 @@ class Category
             'name' => 'Здоровье',
             'slug' => 'health',
         ],
-    ];
+    ];*/
 
     public function getNewsCategories(): array
     {
-        return $this->newsCategories;
+        return json_decode(Storage::disk('local')->get('categories.json'), true);
+        //return $this->newsCategories;
     }
 
     public function getCategoryIdBySlug($slug)
