@@ -10,12 +10,12 @@
 
 @section('content')
     @if ($newsText)
-        @if (!$newsText['isPrivate'])
+        @if (!$newsText->is_private)
             <div class="mb-5">
-                <h1><?= $newsText['title'] ?></h1>
+                <h1><?= $newsText->title ?></h1>
             </div>
             <div>
-                <p class="h4"><?= $newsText['text'] ?></p>
+                <p class="h4"><?= $newsText->text ?></p>
             </div>
         @else
             <h2 class="mb-5">Зарегистрируйтесь для просмотра ¯\_(ツ)_/¯</h2>

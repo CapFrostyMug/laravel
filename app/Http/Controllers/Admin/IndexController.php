@@ -19,16 +19,8 @@ class IndexController extends Controller
         if ($request->isMethod('post')) {
 
             $request->flash();
-
-            $allNews = $news->getAllNews(); // получаем все новости
-            $formData = $request->except('_token'); // получаем данные из формы; либо $request->all();
-
-            $formData['id'] = end($allNews)['id'] + 1; // вычисляем новый id
-
-            $allNews[] = $formData; // записываем данные из формы в массив со всеми новостями
-
-            $news->saveToFile($allNews);
-            return redirect()->route('news-text', [$formData['category_id'], $formData['id']]);
+            $news->insert($request->except('_token'));
+            return view('admin.index');
 
         }
         return view('admin.create', [
