@@ -10,9 +10,13 @@
 </li>
 
 <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('admin.test1')? 'active' : '' }}" href="{{ route('admin.download.image') }}">Скачать изображение</a>
+    <a class="nav-link {{ request()->routeIs('admin.editor')? 'active' : '' }}" href="{{ route('admin.editor-list') }}">Редактор новостей</a>
 </li>
 
-<li class="nav-item">
+<!--<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('admin.test1')? 'active' : '' }}" href="{{ route('admin.download.image') }}">Скачать изображение</a>
+</li>-->
+
+<!--<li class="nav-item">
     <a class="nav-link {{ request()->routeIs('admin.test2')? 'active' : '' }}" href="{{ route('admin.download.news') }}">Скачать текст</a>
-</li>
+</li>-->

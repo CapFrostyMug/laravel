@@ -17,9 +17,9 @@ class News
         $this->category = $category;
     }
 
-    public function getAllNews(): array
+    public function getAllNews()
     {
-        return DB::select("SELECT * FROM news");
+        return DB::table('news')->get();
     }
 
     public function getNewsByCategorySlug($slug): array
@@ -47,14 +47,5 @@ class News
     public function saveToFile($news)
     {
         Storage::disk('local')->put('news.json', json_encode($news), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    }
-
-    public function insert($news)
-    {
-        DB::insert("INSERT INTO news (title, category_id, text, is_private) VALUES (:title, :category_id, :text, :is_private)",
-        ['title' => $news['title'], 'category_id' => $news['category_id'], ':text' => $news['text'], ':is_private' => $news['isPrivate']]);
-
-        //return DB::getPdo()->lastInsertId();
-        //return DB::table('news')->insertGetId($news);
     }
 }

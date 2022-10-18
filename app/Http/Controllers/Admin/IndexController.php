@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\News;
-use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
@@ -14,30 +12,22 @@ class IndexController extends Controller
         return view('admin.index');
     }
 
-    public function create(Request $request, Category $category, News $news)
+    public function getNews(News $news)
     {
-        if ($request->isMethod('post')) {
-
-            $request->flash();
-            $news->insert($request->except('_token'));
-            return view('admin.index');
-
-        }
-        return view('admin.create', [
-            'categories' => $category->getNewsCategories(),
-        ]);
+        $allNews = $news->getAllNews(); // Пока оставил так; работа через модель, чтобы не дублировать функционал.
+        return view('admin.editorList')->with('allNews', $allNews);
     }
 
-    public function downloadImage()
+    /*public function downloadImage()
     {
         return response()->download('img01.jpg');
-    }
+    }*/
 
-    public function downloadNewsJsonFile(News $news)
+    /*public function downloadNewsJsonFile(News $news)
     {
         $news = $news->getAllNews();
         return response()->json($news)
             ->header('Content-Disposition', 'attachment; filename = "json.txt"')
             ->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    }
+    }*/
 }

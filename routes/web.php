@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use \App\Http\Controllers\NewsController;
 use App\Http\Controllers\Admin\IndexController as AdminIndexController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use Illuminate\Support\Facades\URL;
 
 /*
@@ -36,7 +37,10 @@ Route::name('admin.')
     ->prefix('admin')
     ->group(function () {
         Route::get('/', [AdminIndexController::class, 'index'])->name('index');
-        Route::match(['get', 'post'], '/create', [AdminIndexController::class, 'create'])->name('create');
+        Route::match(['get', 'post'], '/create', [AdminNewsController::class, 'formHandler'])->name('create');
+
+        Route::get('/editor', [AdminIndexController::class, 'getNews'])->name('editor-list');
+        Route::match(['get', 'post'],'/editor/{newsId}', [AdminNewsController::class, 'formHandler'])->name('editor-form');
 
         Route::get('/download-image', [AdminIndexController::class, 'downloadImage'])->name('download.image');
         Route::get('/download-news', [AdminIndexController::class, 'downloadNewsJsonFile'])->name('download.news');

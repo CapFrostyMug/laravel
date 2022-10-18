@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 class Category
 {
-    public function getNewsCategories(): array
+    public function getNewsCategories()
     {
-        return DB::select("SELECT * FROM categories");
+        return DB::table('categories')->get();
     }
 
     public function getCategoryIdBySlug($slug)
