@@ -13,10 +13,10 @@
         <h1>Все новости</h1>
     </div>
     <div>
-        @forelse($allNews as $news)
+        @forelse($news as $item)
             <div class="mb-3">
-                <p class="m-0">{{ $news->title }}</p>
-                <a href="{{ route('admin.editor-form', $news->id) }}" class="text-decoration-none">Редактировать</a>
+                <p class="m-0">{{ $item->title }}</p>
+                <a href="{{ route('admin.editor-form', $item->id) }}" class="text-decoration-none">Редактировать</a>
             </div>
         @empty
             <div>

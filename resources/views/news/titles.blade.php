@@ -14,9 +14,9 @@
     </div>
     <div>
         <ul class="list-group">
-            @forelse($newsTitles as $news)
+            @forelse($news as $item)
                 <li class="list-group-item h4 mb-2">
-                    <a href="{{ route('news-text', [$news->category_id, $news->id]) }}" class="text-decoration-none">{{ $news->title }}</a>
+                    <a href="{{ route('news-text', [$item->category_id, $item->id]) }}" class="text-decoration-none">{{ $item->title }}</a>
                 </li>
             @empty
                 <li class="list-group-item"><p>Сегодня новостей нет</p></li>

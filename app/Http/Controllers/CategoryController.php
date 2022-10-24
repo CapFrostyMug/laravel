@@ -11,15 +11,17 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function showNewsCategories(Category $categories)
+    public function getCategories(Category $category)
     {
-        $categories = $categories->getNewsCategories();
+        $categories = $category::query()->get();
         return view('news.categories')->with('categories', $categories);
     }
 
-    public static function showNews(News $newsTitles, $categoryId)
+    public function getNews(News $news, Category $category)
     {
-        $newsTitles = $newsTitles->getNewsByCategorySlug($categoryId);
-        return view('news.titles')->with('newsTitles', $newsTitles);
+        $news = $news::query()
+            ->where('category_id', $category->id)
+            ->get();
+        return view('news.titles')->with('news', $news);
     }
 }

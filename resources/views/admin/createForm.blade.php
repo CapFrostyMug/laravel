@@ -14,12 +14,13 @@
                 <div class="card">
                     <div class="card-header">{{ __('Добавить новость') }}</div>
                     <div class="card-body">
+
+                        @include('inc.message')
                         <form action="{{ route('admin.create') }}" method="post">
                             @csrf
-
                             <div class="form-group mb-3">
                                 <label for="newsTitle">Заголовок новости</label>
-                                <input type="text" name="title" id="newsTitle" class="form-control" value="{{ old('title') }}">
+                                <input type="text" name="title" id="newsTitle" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}">
                             </div>
 
                             <div class="form-group mb-3">
@@ -36,7 +37,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="newsText">Текст новости</label>
-                                <textarea name="text" id="newsText" class="form-control">{{ old('text') }}</textarea>
+                                <textarea name="text" id="newsText" class="form-control @error('text') is-invalid @enderror">{{ old('text') }}</textarea>
                             </div>
 
                             <div class="form-check mb-3">

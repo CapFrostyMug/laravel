@@ -1,29 +1,19 @@
 <?php
 
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-
-class Category
+class Category extends Model
 {
-    public function getNewsCategories()
-    {
-        return DB::table('categories')->get();
-    }
+    use HasFactory;
 
-    public function getCategoryIdBySlug($slug)
-    {
-        $id = null;
+    public $timestamps = false;
 
-        foreach ($this->getNewsCategories() as $category) {
-            if (($category->slug) == $slug) {
-                $id = $category->id;
-                break;
-            }
-        }
-        return $id;
+    public function news(): HasMany
+    {
+        return $this->hasMany(News::class, 'category_id');
     }
 }

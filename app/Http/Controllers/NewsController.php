@@ -4,15 +4,23 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
 
 
 class NewsController extends Controller
 {
-    public function showNews(News $newsText, $categoryId, $newsId)
+    public function getOneNews(Category $category, News $news)
     {
-        $newsText = $newsText->getNewsText($newsId);
-        return view('news.text')->with('newsText', $newsText);
+        $news = $news::query()
+            ->where('id', $news->id)
+            ->get();
+
+        if (!$news) {
+            return abort(404);
+        }
+
+        return view('news.text')->with('news', $news);
     }
 }

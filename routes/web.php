@@ -28,19 +28,19 @@ use Illuminate\Support\Facades\URL;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('news')->group(function () {
-    Route::get('/categories', [CategoryController::class, 'showNewsCategories'])->name('news-categories');
-    Route::get('/categories/{categoryId}', [CategoryController::class, 'showNews'])->name('news-titles');
-    Route::get('/categories/{categoryId}/{newsId}', [NewsController::class, 'showNews'])->name('news-text');
+    Route::get('/categories', [CategoryController::class, 'getCategories'])->name('news-categories');
+    Route::get('/categories/{category}', [CategoryController::class, 'getNews'])->name('news-titles');
+    Route::get('/categories/{category}/{news}', [NewsController::class, 'getOneNews'])->name('news-text');
 });
 
 Route::name('admin.')
     ->prefix('admin')
     ->group(function () {
         Route::get('/', [AdminIndexController::class, 'index'])->name('index');
-        Route::match(['get', 'post'], '/create', [AdminNewsController::class, 'formHandler'])->name('create');
 
+        Route::match(['get', 'post'], '/create', [AdminNewsController::class, 'addNews'])->name('create');
         Route::get('/editor', [AdminIndexController::class, 'getNews'])->name('editor-list');
-        Route::match(['get', 'post'],'/editor/{newsId}', [AdminNewsController::class, 'formHandler'])->name('editor-form');
+        Route::match(['get', 'post'], '/editor/{news}', [AdminNewsController::class, 'editNews'])->name('editor-form');
 
         Route::get('/download-image', [AdminIndexController::class, 'downloadImage'])->name('download.image');
         Route::get('/download-news', [AdminIndexController::class, 'downloadNewsJsonFile'])->name('download.news');

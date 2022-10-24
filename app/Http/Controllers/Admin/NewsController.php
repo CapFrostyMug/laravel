@@ -3,54 +3,46 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\EditorRequest;
 use App\Models\Category;
+use App\Models\News;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
-    public function formHandler(Request $request, Category $category, $newsId = null)
+    public function addNews(CreateRequest $request, Category $category, News $news)
     {
-        $formData = $request->except('_token');
-
         if ($request->isMethod('post')) {
 
+            $request->validated();
+
             $request->flash();
+            $news->fill($request->except('_token'));
+            $news->save();
 
-            DB::table('news')
-                ->updateOrInsert(
-                    ['id' => $newsId],
-                    $formData
-                );
-
-            if ($newsId) {
-                return redirect()->route('news-text', [$formData['category_id'], $newsId]);
-            }
-
-            $lastId = (DB::table('news')->get()->last())->id;
-            return redirect()->route('news-text', [$formData['category_id'], $lastId]);
-
+            $lastNews = $news->fresh();
+            return redirect()->route('news-text', [$lastNews->category_id, $lastNews->id]);
         }
 
-        if ($newsId) {
+        return view('admin.createForm')->with('categories', $category::query()->get());
+    }
 
-            $oneNews = DB::table('news')
-                ->where('id', '=', $newsId)
-                ->get();
+    public function editNews(EditorRequest $request, Category $category, News $news)
+    {
+        if ($request->isMethod('post')) {
 
-            if (empty($oneNews[0])) {
-                return abort(404);
-            }
+            $request->validated();
 
-            return view('admin.editorForm', [
-                'categories' => $category->getNewsCategories(),
-                'oneNews' => $oneNews[0],
-            ]);
+            $news->fill($request->except('_token'));
+            $news->save();
 
+            return redirect()->route('news-text', [$news->category_id, $news->id]);
         }
 
-        return view('admin.createForm', [
-            'categories' => $category->getNewsCategories(),
+        return view('admin.editorForm')->with([
+            'categories' => $category::query()->get(),
+            'news' => $news,
         ]);
     }
 }

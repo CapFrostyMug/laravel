@@ -1,51 +1,26 @@
 <?php
 
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-
-class News
+class News extends Model
 {
-    private Category $category;
+    use HasFactory;
 
-    public function __construct(Category $category)
+    public $timestamps = false;
+
+    protected $fillable = [
+        'category_id',
+        'title',
+        'text',
+        'is_private'
+    ];
+
+    public function category(): BelongsTo
     {
-        $this->category = $category;
-    }
-
-    public function getAllNews()
-    {
-        return DB::table('news')->get();
-    }
-
-    public function getNewsByCategorySlug($slug): array
-    {
-        $id = $this->category->getCategoryIdBySlug($slug);
-        $news = [];
-
-        foreach ($this->getAllNews() as $item) {
-            if (($item->category_id) == $id) {
-                $news[] = $item;
-            }
-        }
-        return $news;
-    }
-
-    public function getNewsText($newsId)
-    {
-        foreach ($this->getAllNews() as $news) {
-            if (($news->id) == $newsId) {
-                return $news;
-            }
-        }
-    }
-
-    public function saveToFile($news)
-    {
-        Storage::disk('local')->put('news.json', json_encode($news), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        return $this->belongsTo(Category::class);
     }
 }
