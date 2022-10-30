@@ -4,7 +4,8 @@
 <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('news-categories')? 'active' : '' }}" href="{{ route('news-categories') }}" style="margin-right: 15px">Новости</a>
 </li>
+@if (!is_null(\Illuminate\Support\Facades\Auth::user()) && \Illuminate\Support\Facades\Auth::user()->is_admin)
 <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('admin.index')?' active':'' }}" href="{{ route('admin.index') }}">Админка</a>
 </li>
-<!--<li class="nav-item"><a class="nav-link" href="{{ route('login') }}" style="margin-right: 15px">Вход</a></li>-->
+@endif

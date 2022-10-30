@@ -33,19 +33,21 @@ Route::prefix('news')->group(function () {
     Route::get('/categories/{category}/{news}', [NewsController::class, 'getOneNews'])->name('news-text');
 });
 
-Route::name('admin.')
-    ->prefix('admin')
-    ->group(function () {
-        Route::get('/', [AdminIndexController::class, 'index'])->name('index');
+Route::middleware('is_admin')->group(function () {
+    Route::name('admin.')
+        ->prefix('admin')
+        ->group(
+            function () {
+                Route::get('/', [AdminIndexController::class, 'index'])->name('index');
 
-        Route::match(['get', 'post'], '/create', [AdminNewsController::class, 'addNews'])->name('create');
-        Route::get('/editor', [AdminIndexController::class, 'getNews'])->name('editor-list');
-        Route::match(['get', 'post'], '/editor/{news}', [AdminNewsController::class, 'editNews'])->name('editor-form');
+                Route::match(['get', 'post'], '/create', [AdminNewsController::class, 'addNews'])->name('create');
+                Route::get('/editor', [AdminIndexController::class, 'getNews'])->name('editor-list');
+                Route::match(['get', 'post'], '/editor/{news}', [AdminNewsController::class, 'editNews'])->name('editor-form');
 
-        Route::get('/download-image', [AdminIndexController::class, 'downloadImage'])->name('download.image');
-        Route::get('/download-news', [AdminIndexController::class, 'downloadNewsJsonFile'])->name('download.news');
-    });
-
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+                Route::get('/download-image', [AdminIndexController::class, 'downloadImage'])->name('download.image');
+                Route::get('/download-news', [AdminIndexController::class, 'downloadNewsJsonFile'])->name('download.news');
+            }
+        );
+});
 
 Auth::routes();

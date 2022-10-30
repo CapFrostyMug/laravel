@@ -13,6 +13,10 @@
     <a class="nav-link {{ request()->routeIs('admin.editor')? 'active' : '' }}" href="{{ route('admin.editor-list') }}">Редактор новостей</a>
 </li>
 
+<li class="nav-item">
+    <a class="nav-link" href="#">Редактор профилей</a>
+</li>
+
 <!--<li class="nav-item">
     <a class="nav-link {{ request()->routeIs('admin.test1')? 'active' : '' }}" href="{{ route('admin.download.image') }}">Скачать изображение</a>
 </li>-->
