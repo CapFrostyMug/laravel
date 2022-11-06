@@ -4,6 +4,9 @@
 <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('news-categories')? 'active' : '' }}" href="{{ route('news-categories') }}" style="margin-right: 15px">Новости</a>
 </li>
+<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('parser')? 'active' : '' }}" href="{{ route('parser') }}" style="margin-right: 15px">Валюта</a>
+</li>
 @if (!is_null(\Illuminate\Support\Facades\Auth::user()) && \Illuminate\Support\Facades\Auth::user()->is_admin)
 <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('admin.index')?' active':'' }}" href="{{ route('admin.index') }}">Админка</a>

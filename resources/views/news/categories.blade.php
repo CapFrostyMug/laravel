@@ -16,11 +16,16 @@
         <ul class="list-group">
             @forelse($categories as $category)
                 <li class="list-group-item h3">
-                    <a href="{{ route('news-titles', $category->id) }}" class="text-decoration-none">{{ $category->name }}</a>
+                    <a href="{{ route('news-titles', $category->id) }}"
+                       class="text-decoration-none">{{ $category->name }}</a>
                 </li>
             @empty
                 <li class="list-group-item"><p>Категории отсутствуют</p></li>
             @endforelse
         </ul>
     </div>
+@endsection
+
+@section('footer')
+    @include('footer')
 @endsection

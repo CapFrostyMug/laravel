@@ -10,6 +10,9 @@ use App\Http\Controllers\Admin\IndexController as AdminIndexController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use Illuminate\Support\Facades\URL;
 
+use \App\Http\Controllers\Admin\ParserController;
+use \App\Http\Controllers\SocialProvidersController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +29,8 @@ use Illuminate\Support\Facades\URL;
 });*/
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/parser', [ParserController::class, 'getCurrency'])->name('parser');
 
 Route::prefix('news')->group(function () {
     Route::get('/categories', [CategoryController::class, 'getCategories'])->name('news-categories');
@@ -48,6 +53,15 @@ Route::middleware('is_admin')->group(function () {
                 Route::get('/download-news', [AdminIndexController::class, 'downloadNewsJsonFile'])->name('download.news');
             }
         );
+});
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/auth/redirect/{driver}', [SocialProvidersController::class, 'redirect'])
+        ->where('driver', '\w+')
+        ->name('alternative.auth.redirect');
+
+    Route::get('/auth/callback/{driver}', [SocialProvidersController::class, 'callback'])
+        ->where('driver', '\w+');
 });
 
 Auth::routes();
