@@ -7,6 +7,7 @@ use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\EditorRequest;
 use App\Models\Category;
 use App\Models\News;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -44,5 +45,22 @@ class NewsController extends Controller
             'categories' => $category::query()->get(),
             'news' => $news,
         ]);
+    }
+
+    public function addNewsFromResource($data)
+    {
+        foreach ($data as $key => $value) {
+            foreach ($value as $key1 => $value1) {
+                $values[] = $value1;
+                (new News)::create(
+                    [
+                        'category_id' => $value1['category'],
+                        'title' => $value1['title'],
+                        'text' => $value1['description'],
+                        'is_private' => 0,
+                    ]
+                );
+            }
+        }
     }
 }

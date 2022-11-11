@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Http\Controllers\Admin\NewsController;
 use App\Services\Contracts\Parser;
 use Orchestra\Parser\Xml\Facade as XmlParser;
+use SebastianBergmann\CodeCoverage\Report\PHP;
 
 class ParserService implements Parser
 {
@@ -18,27 +20,16 @@ class ParserService implements Parser
         return $this;
     }
 
-    public function getParseData(): array
+    public function saveParseData(): void
     {
         $xml = XmlParser::load($this->link);
+
         $data = $xml->parse([
-            /*'NumCode' => [
-                'uses' => 'Valute.NumCode'
-            ],
-            'CharCode' => [
-                'uses' => 'Valute.CharCode'
-            ],
-            'Nominal' => [
-                'uses' => 'Valute.Nominal'
-            ],
-            'Name' => [
-                'uses' => 'Valute.Name'
-            ],*/
-            'ValCurs' => [
-                'uses' => 'Valute[NumCode,CharCode,Nominal,Name]'
+            'news' => [
+                'uses' => 'channel.item[title,description,category]'
             ]
         ]);
 
-        return $data;
+        (new NewsController())->addNewsFromResource($data);
     }
 }

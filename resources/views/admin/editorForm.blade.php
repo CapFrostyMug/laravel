@@ -20,7 +20,8 @@
                             @csrf
                             <div class="form-group mb-3">
                                 <label for="newsTitle">Заголовок новости</label>
-                                <input type="text" name="title" id="newsTitle" class="form-control" value="{{ $news->title }}">
+                                <input type="text" name="title" id="newsTitle" class="form-control"
+                                       value="{{ $news->title }}">
                                 @error('title') <span style="color: red">{{ $message }}</span> @enderror
                             </div>
 
@@ -38,7 +39,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="newsText">Текст новости</label>
-                                <textarea name="text" id="newsText" class="form-control">{{ $news->text }}</textarea>
+                                <textarea name="text" id="newsText" class="form-control">{!! $news->text !!}</textarea>
                                 @error('text') <span style="color: red">{{ $message }}</span> @enderror
                             </div>
 
@@ -61,3 +62,13 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.3.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#newsText'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+@endpush

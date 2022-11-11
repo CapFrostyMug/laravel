@@ -13,16 +13,7 @@
         <h1>Валюта</h1>
     </div>
     <div>
-        @foreach($currency as $key => $value)
-            @foreach($value as $item)
-                <div class="mb-4">
-                    <p class="m-0">{{ $item['NumCode'] }}</p>
-                    <p class="m-0">{{ $item['CharCode'] }}</p>
-                    <p class="m-0">{{ $item['Nominal'] }}</p>
-                    <p class="m-0">{{ $item['Name'] }}</p>
-                </div>
-            @endforeach
-        @endforeach
+        <span></span>
     </div>
 @endsection
 

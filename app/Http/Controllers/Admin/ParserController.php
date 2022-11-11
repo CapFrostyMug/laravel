@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\Contracts\Parser;
-use Illuminate\Http\Request;
+use App\Jobs\JobNewsParsing;
+use App\Models\NewsResources;
 
 class ParserController extends Controller
 {
-    public function getCurrency(Request $request, Parser $parser)
+    public function getCurrency(NewsResources $resources)
     {
-        $currency = $parser->setLink("https://www.cbr-xml-daily.ru/daily_utf8.xml")
-            ->getParseData();
+        $url = $resources::query()
+            ->get();
 
-        return view('currency')->with('currency', $currency);
+        $url->map(function ($item) {
+            \dispatch(new JobNewsParsing($item->url));
+        });
+
+        return "Parsing completed";
     }
 }
